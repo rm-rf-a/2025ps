@@ -1,0 +1,152 @@
+#벡터를 이용하자
+#파이썬보다 cpp를가 확실히 빠르다
+
+1안(틀림)
+x,y,c = map(int, input().split())
+lo =[]
+delta = []
+tan = []
+ma = 0 
+for i in range(0,c,1):
+  lo.append(list(map(int, input().split())))
+  delta.append([x-lo[i][0],y-lo[i][1]])
+  tan.append(delta[i][1]/delta[i][0])
+for i in range(0,c,1):
+    if ma<tan.count(tan[i]) :
+        ma = tan.count(tan[i])
+print(ma)
+    
+
+
+2안
+from math import gcd
+from collections import defaultdict
+#좋은건외워두자
+#벡터를 쓰자
+x, y, c = map(int, input().split())
+cnt = defaultdict(int)
+
+for i in range(0,c,1):
+    a, b = map(int, input().split())
+    dx = a - x
+    dy = b - y
+
+    if dx == 0 and dy == 0:
+        continue
+
+    g = gcd(dx, dy) #공약수
+    dx = dx//g
+    dy = dy//g
+
+    cnt[(dx, dy)] += 1
+
+print(max(cnt.values()))
+
+3안
+import sys
+from math import gcd
+from collections import defaultdict
+
+input = sys.stdin.readline
+
+x, y, c = map(int, input().split())
+cnt = defaultdict(int)
+
+for _ in range(c):
+    a, b = map(int, input().split())
+    dx = a - x
+    dy = b - y
+
+    if dx == 0 and dy == 0:
+        continue
+
+    g = gcd(dx, dy)
+    dx //= g
+    dy //= g
+
+    cnt[(dx, dy)] += 1
+
+print(max(cnt.values()))
+
+4안
+import sys
+
+def fast_gcd(a, b):
+    while b:
+        a, b = b, a % b
+    return a if a > 0 else -a
+
+def main():
+    data = sys.stdin.read().split()
+    x, y, n = int(data[0]), int(data[1]), int(data[2])
+    i = 3
+    cnt = {}
+    max_val = 0
+
+    for _ in range(n):
+        a, b = int(data[i]), int(data[i + 1])
+        i += 2
+        dx = a - x
+        dy = b - y
+
+        if dx == 0 and dy == 0:
+            continue
+
+        g = fast_gcd(dx, dy)
+        dx //= g
+        dy //= g
+
+        # 방향 벡터를 문자열이나 정수로 key화
+        key = f"{dx},{dy}"  # 문자열 기반 (빠른 hash)
+
+        cnt[key] = cnt.get(key, 0) + 1
+        if cnt[key] > max_val:
+            max_val = cnt[key]
+
+    print(max_val)
+
+if __name__ == "__main__":
+    main()
+
+최종안(cpp)
+#include <iostream>
+#include <unordered_map>
+#include <algorithm>
+#include <cmath>
+using namespace std;
+
+int gcd(int a, int b) {
+    while (b != 0) {
+        int t = a % b;
+        a = b;
+        b = t;
+    }
+    return abs(a);
+}
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(0);
+
+    int x, y, n;
+    cin >> x >> y >> n;
+
+    unordered_map<long long, int> cnt;
+    int maxCount = 0;
+
+    for (int i = 0; i < n; ++i) {
+        int a, b;
+        cin >> a >> b;
+        int dx = a - x;
+        int dy = b - y;
+
+        if (dx == 0 && dy == 0) continue;
+
+        int g = gcd(dx, dy);
+        dx /= g;
+        dy /= g;
+
+        long long key = ((long long)dx << 32) | (unsigned int)dy;
+        cnt[key]++;
+        maxCount = max(maxCount, cnt[key]);
+    }
