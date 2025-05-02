@@ -1,0 +1,58 @@
+#시스템입출력을 사용하자
+#유용한 모듈은 기억해놓을것
+#append는 맨 뒤에 "추가"하기 떄문에 비효율적이다 그냥 값을 쓰는 방법을 애용하자
+
+1안
+from math import gcd
+from collections import Counter
+n = int(input())
+c=0
+la=[]
+g=0
+ma=0
+a=0
+for i in range(0,n,1) :
+    a, b = map(int, input().split())
+    if a!=1:
+        if a<=b and b%a==0:
+            g = gcd(a,b)
+            la.append([a/g,b/g])
+            
+        elif b>a and a%b==0:
+            g = gcd(a,b)
+            la.append([a/g,b/g])
+        else :
+            la.append([a,b])
+    else :
+        la.append([a,b])
+for i in range(0,n,1):
+    a=la.count(la[i])
+    if a>ma :
+       ma = a
+print(ma)
+
+2안
+from math import gcd
+import sys
+from collections import defaultdict
+input = sys.stdin.readline
+n = int(input())
+c=0
+g=0
+cnt = defaultdict(int)
+for i in range(0,n,1) :
+    a, b = map(int, input().split())
+    if a!=1:
+        if a<=b and b%a==0:
+            g = gcd(a,b)
+            cnt[(a/g, b/g)] += 1
+            
+        elif b>a and a%b==0:
+            g = gcd(a,b)
+            cnt[(a/g, b/g)] += 1
+        else :
+            cnt[(a, b)] += 1
+    else :
+        cnt[(a, b)] += 1
+        
+print(max(cnt.values()))
