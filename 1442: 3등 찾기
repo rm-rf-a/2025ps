@@ -1,0 +1,23 @@
+n = int(input())
+name = []
+score=[]
+b = []
+
+for i in range (0,n,1) :
+    t1,t2 = input().split()
+    t2 = int(t2)
+    name.append(t1)
+    score.append(t2)
+
+b = score.copy()
+score.sort(reverse=True)
+for i in range(n):
+    if score[2] == b[i]:
+        t1 = i
+print(name[t1])
+
+파이썬 진짜 이해안되네ㅋㅋ
+리스트a = 리스트b 하니까
+b=를 바꾸니까 a가 같이바뀜;;;
+
+정렬할때 정렬방향에 주의
