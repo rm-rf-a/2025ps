@@ -1,0 +1,27 @@
+#include <stdio.h>
+
+int main() {
+    char str[1001];
+    int a, b;
+
+    scanf("%s", str);       
+    scanf("%d %d", &a, &b);
+
+    char *p = str + a-1; 
+
+    for (int i = a; i <=b; i++) {
+        printf("%c", *p);
+        p++; 
+    }
+
+    printf("\n");
+}
+
+---------------------------------------------------------
+
+a = list(input())
+b,c = map(int,input().split())
+for i in range(b-1,c,1):
+    print(a[i],end='')
+
+파이썬으로 돌려도 풀리긴하는데 간?만에 포인터만지니까 기분은 좋네
